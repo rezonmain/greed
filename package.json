@@ -4,7 +4,9 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "clean": "turbo run clean",
+    "db:generate": "turbo db:generate",
+    "db:push": "turbo db:push db:generate"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
