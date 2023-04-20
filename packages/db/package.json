@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "prisma studio & prisma-docs-generator serve -p 5556",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate",
+    "db:push": "prisma db push",
     "postinstall": "prisma generate",
     "clean": "rm -rf .turbo node_modules"
   },

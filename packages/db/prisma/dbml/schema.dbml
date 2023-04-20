@@ -96,6 +96,7 @@ Table Content {
   updatedAt DateTime [not null]
   cells Cell [not null]
   type String [not null]
+  name String
   data String
   url String
 }
