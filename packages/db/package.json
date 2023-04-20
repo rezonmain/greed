@@ -5,19 +5,21 @@
   "main": "index.ts",
   "types": "index.ts",
   "scripts": {
-    "dev": "prisma studio",
+    "dev": "prisma studio & prisma-docs-generator serve -p 5556",
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "postinstall": "prisma generate",
     "clean": "rm -rf .turbo node_modules"
   },
   "dependencies": {
-    "@prisma/client": "^4.11.0",
-    "@greed/env": "workspace:*"
+    "@greed/env": "workspace:*",
+    "@prisma/client": "^4.11.0"
   },
   "devDependencies": {
-    "prisma": "^4.11.0",
     "@greed/tsconfig": "workspace:*",
+    "prisma": "^4.11.0",
+    "prisma-dbml-generator": "^0.10.0",
+    "prisma-docs-generator": "^0.7.0",
     "typescript": "^5.0.2"
   },
   "keywords": [],
