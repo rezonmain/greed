@@ -5,6 +5,10 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator zod {
+    provider = "zod-prisma"
+}
+
 generator dbml {
     provider = "prisma-dbml-generator"
 }
