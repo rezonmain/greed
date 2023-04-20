@@ -5,19 +5,18 @@ generator client {
     provider = "prisma-client-js"
 }
 
-datasource db {
-    provider = "sqlite"
-    // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
-    // Further reading:
-    // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
-    // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
-    url      = env("DATABASE_URL")
+generator dbml {
+    provider = "prisma-dbml-generator"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+generator docs {
+    provider = "node node_modules/prisma-docs-generator"
+}
+
+datasource db {
+    provider     = "mysql"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
 // Necessary for Next auth
@@ -27,16 +26,17 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -45,16 +45,24 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id             String          @id @default(cuid())
+    name           String?
+    email          String?         @unique
+    emailVerified  DateTime?
+    image          String?
+    accounts       Account[]
+    sessions       Session[]
+    permission     Permission[]
+    wallets        Wallet[]
+    updateRequests UpdateRequest[]
+    cells          Cell[]
+    grids          Grid[]
+    Approval       Approval[]
 }
 
 model VerificationToken {
@@ -63,4 +71,116 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Grid {
+    id             String          @id @default(cuid())
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @updatedAt
+    cells          Cell[]
+    GridMeta       GridMeta        @relation(fields: [gridMetaId], references: [id], onDelete: Cascade)
+    gridMetaId     String          @unique
+    permissions    Permission[]
+    updateRequests UpdateRequest[]
+    user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId         String
+
+    @@index([userId])
+}
+
+model GridMeta {
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    grid        Grid?
+    name        String
+    widthCells  Int
+    heightCells Int
+}
+
+model Permission {
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    grid        Grid     @relation(fields: [gridId], references: [id], onDelete: Cascade)
+    gridId      String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId      String
+    permissions String
+
+    @@index([gridId])
+    @@index([userId])
+}
+
+model Content {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    cells     Cell[]
+    type      String
+    name      String?
+    data      String?
+    url       String?
+}
+
+model Cell {
+    id              String         @id @default(cuid())
+    createdAt       DateTime       @default(now())
+    updatedAt       DateTime       @updatedAt
+    grid            Grid           @relation(fields: [gridId], references: [id], onDelete: Cascade)
+    gridId          String
+    column          Int
+    row             Int
+    content         Content        @relation(fields: [contentId], references: [id])
+    contentId       String
+    user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId          String
+    updateRequest   UpdateRequest? @relation(fields: [updateRequestId], references: [id])
+    updateRequestId String?
+
+    @@index([gridId])
+    @@index([contentId])
+    @@index([userId])
+    @@index([updateRequestId])
+}
+
+model Wallet {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    address   String   @unique
+    balance   Float
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+
+    @@index([userId])
+}
+
+model UpdateRequest {
+    id         String   @id @default(cuid())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    user       User     @relation(fields: [userId], references: [id])
+    userId     String
+    grid       Grid     @relation(fields: [gridId], references: [id], onDelete: Cascade)
+    gridId     String
+    cells      Cell[]
+    approval   Approval @relation(fields: [approvalId], references: [id])
+    approvalId String   @unique
+
+    @@index([userId])
+    @@index([gridId])
+}
+
+model Approval {
+    id            String         @id @default(cuid())
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+    approved      Boolean        @default(false)
+    approvedAt    DateTime?
+    user          User?          @relation(fields: [userId], references: [id])
+    userId        String?
+    updateRequest UpdateRequest?
+
+    @@index([userId])
 }
