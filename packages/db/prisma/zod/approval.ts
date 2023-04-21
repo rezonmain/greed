@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CompleteUser, RelatedUserModel, CompleteUpdateRequest, RelatedUpdateRequestModel } from "./index"
+import { CompleteUser, RelatedUserModel, CompleteCell, RelatedCellModel } from "./index"
 
 export const ApprovalModel = z.object({
   id: z.string(),
@@ -12,7 +12,7 @@ export const ApprovalModel = z.object({
 
 export interface CompleteApproval extends z.infer<typeof ApprovalModel> {
   user?: CompleteUser | null
-  updateRequest?: CompleteUpdateRequest | null
+  Cell: CompleteCell[]
 }
 
 /**
@@ -21,6 +21,9 @@ export interface CompleteApproval extends z.infer<typeof ApprovalModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedApprovalModel: z.ZodSchema<CompleteApproval> = z.lazy(() => ApprovalModel.extend({
+  /**
+   * The user who approved the cell
+   */
   user: RelatedUserModel.nullish(),
-  updateRequest: RelatedUpdateRequestModel.nullish(),
+  Cell: RelatedCellModel.array(),
 }))

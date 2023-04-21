@@ -5,9 +5,12 @@ export const PermissionModel = z.object({
   id: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  /**
+   * Serialized string of the permissions, permissions are represented as bit flags
+   */
+  permissions: z.string(),
   gridId: z.string(),
   userId: z.string(),
-  permissions: z.string(),
 })
 
 export interface CompletePermission extends z.infer<typeof PermissionModel> {

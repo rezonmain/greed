@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CompleteAccount, RelatedAccountModel, CompleteSession, RelatedSessionModel, CompletePermission, RelatedPermissionModel, CompleteWallet, RelatedWalletModel, CompleteUpdateRequest, RelatedUpdateRequestModel, CompleteCell, RelatedCellModel, CompleteGrid, RelatedGridModel, CompleteApproval, RelatedApprovalModel } from "./index"
+import { CompleteAccount, RelatedAccountModel, CompleteSession, RelatedSessionModel, CompletePermission, RelatedPermissionModel, CompleteWallet, RelatedWalletModel, CompleteCell, RelatedCellModel, CompleteGrid, RelatedGridModel, CompleteApproval, RelatedApprovalModel } from "./index"
 
 export const UserModel = z.object({
   id: z.string(),
@@ -14,7 +14,6 @@ export interface CompleteUser extends z.infer<typeof UserModel> {
   sessions: CompleteSession[]
   permission: CompletePermission[]
   wallets: CompleteWallet[]
-  updateRequests: CompleteUpdateRequest[]
   cells: CompleteCell[]
   grids: CompleteGrid[]
   Approval: CompleteApproval[]
@@ -30,7 +29,6 @@ export const RelatedUserModel: z.ZodSchema<CompleteUser> = z.lazy(() => UserMode
   sessions: RelatedSessionModel.array(),
   permission: RelatedPermissionModel.array(),
   wallets: RelatedWalletModel.array(),
-  updateRequests: RelatedUpdateRequestModel.array(),
   cells: RelatedCellModel.array(),
   grids: RelatedGridModel.array(),
   Approval: RelatedApprovalModel.array(),

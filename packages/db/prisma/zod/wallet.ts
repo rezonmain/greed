@@ -20,5 +20,8 @@ export interface CompleteWallet extends z.infer<typeof WalletModel> {
  * NOTE: Lazy required in case of potential circular dependencies within schema
  */
 export const RelatedWalletModel: z.ZodSchema<CompleteWallet> = z.lazy(() => WalletModel.extend({
+  /**
+   * The user who owns the wallet
+   */
   user: RelatedUserModel,
 }))

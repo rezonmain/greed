@@ -1,23 +1,23 @@
 import * as z from "zod"
-import { CompleteGrid, RelatedGridModel, CompleteContent, RelatedContentModel, CompleteUser, RelatedUserModel, CompleteUpdateRequest, RelatedUpdateRequestModel } from "./index"
+import { CompleteGrid, RelatedGridModel, CompleteContent, RelatedContentModel, CompleteUser, RelatedUserModel, CompleteApproval, RelatedApprovalModel } from "./index"
 
 export const CellModel = z.object({
   id: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  gridId: z.string(),
   column: z.number().int(),
   row: z.number().int(),
+  gridId: z.string(),
   contentId: z.string(),
   userId: z.string(),
-  updateRequestId: z.string().nullish(),
+  approvalId: z.string().nullish(),
 })
 
 export interface CompleteCell extends z.infer<typeof CellModel> {
   grid: CompleteGrid
   content: CompleteContent
   user: CompleteUser
-  updateRequest?: CompleteUpdateRequest | null
+  approval?: CompleteApproval | null
 }
 
 /**
@@ -28,6 +28,9 @@ export interface CompleteCell extends z.infer<typeof CellModel> {
 export const RelatedCellModel: z.ZodSchema<CompleteCell> = z.lazy(() => CellModel.extend({
   grid: RelatedGridModel,
   content: RelatedContentModel,
+  /**
+   * The user who's the author of the cell
+   */
   user: RelatedUserModel,
-  updateRequest: RelatedUpdateRequestModel.nullish(),
+  approval: RelatedApprovalModel.nullish(),
 }))
