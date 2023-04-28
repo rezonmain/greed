@@ -3,15 +3,14 @@ const protectedResources = ["grid", "permission", "approval"] as const;
 type Operation = typeof operations[number];
 type ProtectedResources = typeof protectedResources[number];
 
-export const PERM: Readonly<
-  Record<`${ProtectedResources}.${Operation}`, number>
-> = Object.fromEntries([
-  operations
-    .map((operation, i) =>
-      protectedResources.map((resource) => [`${resource}.${operation}`, 1 << i])
-    )
-    .flat(1),
-]);
+type PermissionName = `${ProtectedResources}.${Operation}`;
+
+export const PERM = Object.fromEntries(
+  protectedResources
+    .map((pr) => operations.map((op) => `${pr}.${op}`))
+    .flat(1)
+    .map((name, i) => [name, 1 << i])
+) as Readonly<Record<PermissionName, number>>;
 
 export const RP: Readonly<Record<Roles, PermissionType[]>> = {
   owner: Object.keys(PERM) as PermissionType[],
