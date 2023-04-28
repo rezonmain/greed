@@ -1,0 +1,51 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`permissions/definition > should remain constant 1`] = `
+{
+  "approval.create": 256,
+  "approval.delete": 2048,
+  "approval.read": 512,
+  "approval.update": 1024,
+  "grid.create": 1,
+  "grid.delete": 8,
+  "grid.read": 2,
+  "grid.update": 4,
+  "permission.create": 16,
+  "permission.delete": 128,
+  "permission.read": 32,
+  "permission.update": 64,
+}
+`;
+
+exports[`permissions/roles > should remain constant 1`] = `
+{
+  "moderator": [
+    "grid.read",
+    "grid.update",
+    "permission.read",
+    "approval.read",
+    "approval.update",
+    "approval.create",
+    "approval.delete",
+  ],
+  "owner": [
+    "grid.create",
+    "grid.read",
+    "grid.update",
+    "grid.delete",
+    "permission.create",
+    "permission.read",
+    "permission.update",
+    "permission.delete",
+    "approval.create",
+    "approval.read",
+    "approval.update",
+    "approval.delete",
+  ],
+  "user": [
+    "grid.read",
+    "approval.read",
+    "approval.create",
+  ],
+}
+`;
