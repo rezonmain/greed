@@ -89,6 +89,7 @@ model Grid {
     user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String
 
+    @@unique([name, userId])
     @@index([userId])
 }
 
