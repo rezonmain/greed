@@ -1,17 +1,18 @@
 import * as z from "zod"
-import { CompleteCell, RelatedCellModel, CompleteGridMeta, RelatedGridMetaModel, CompletePermission, RelatedPermissionModel, CompleteUser, RelatedUserModel } from "./index"
+import { CompleteCell, RelatedCellModel, CompletePermission, RelatedPermissionModel, CompleteUser, RelatedUserModel } from "./index"
 
 export const GridModel = z.object({
   id: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  gridMetaId: z.string(),
+  name: z.string(),
+  widthCells: z.number().int(),
+  heightCells: z.number().int(),
   userId: z.string(),
 })
 
 export interface CompleteGrid extends z.infer<typeof GridModel> {
   cells: CompleteCell[]
-  GridMeta: CompleteGridMeta
   permissions: CompletePermission[]
   user: CompleteUser
 }
@@ -23,7 +24,6 @@ export interface CompleteGrid extends z.infer<typeof GridModel> {
  */
 export const RelatedGridModel: z.ZodSchema<CompleteGrid> = z.lazy(() => GridModel.extend({
   cells: RelatedCellModel.array(),
-  GridMeta: RelatedGridMetaModel,
   permissions: RelatedPermissionModel.array(),
   /**
    * The user who owns the grid
