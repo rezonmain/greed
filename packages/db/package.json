@@ -20,7 +20,6 @@
     "@greed/tsconfig": "workspace:*",
     "prisma": "^4.11.0",
     "prisma-dbml-generator": "^0.10.0",
-    "prisma-docs-generator": "^0.7.0",
     "typescript": "^5.0.2",
     "zod-prisma": "^0.5.4"
   },
