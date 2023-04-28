@@ -6,7 +6,8 @@
     "lint": "turbo run lint",
     "clean": "turbo run clean",
     "db:generate": "turbo db:generate",
-    "db:push": "turbo db:push db:generate"
+    "db:push": "turbo db:push db:generate",
+    "permissions:testing": "turbo permissions:testing"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
