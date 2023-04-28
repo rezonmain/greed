@@ -1,7 +1,7 @@
 import { Prisma } from "@greed/db";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { create, list, update } from "~/server/inputs/grid";
+import { creates, deletes, lists, updates } from "~/server/inputs/grid";
 
 export const gridRouter = createTRPCRouter({
   gridList: protectedProcedure.query(async ({ ctx }) => {
@@ -12,7 +12,7 @@ export const gridRouter = createTRPCRouter({
     });
   }),
 
-  gridByName: protectedProcedure.input(list).query(async ({ ctx, input }) => {
+  gridByName: protectedProcedure.input(lists).query(async ({ ctx, input }) => {
     return await ctx.prisma.grid.findMany({
       where: {
         userId: ctx.session.user.id,
@@ -24,7 +24,7 @@ export const gridRouter = createTRPCRouter({
   }),
 
   gridCreate: protectedProcedure
-    .input(create)
+    .input(creates)
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.grid.create({
@@ -46,7 +46,7 @@ export const gridRouter = createTRPCRouter({
     }),
 
   gridUpdate: protectedProcedure
-    .input(update)
+    .input(updates)
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.grid.update({
@@ -63,6 +63,27 @@ export const gridRouter = createTRPCRouter({
           throw new TRPCError({
             code: "NOT_FOUND",
             message: "The grid you're trying to update does not exist.",
+            cause: error,
+          });
+        }
+        throw error;
+      }
+    }),
+
+  gridDelete: protectedProcedure
+    .input(deletes)
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.prisma.grid.delete({
+          where: {
+            id: input.id,
+          },
+        });
+      } catch (error) {
+        if ((<Prisma.PrismaClientKnownRequestError>error).code === "P2025") {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "The grid you're trying to delete does not exist.",
             cause: error,
           });
         }
