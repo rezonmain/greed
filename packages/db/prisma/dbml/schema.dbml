@@ -66,6 +66,10 @@ Table Grid {
   permissions Permission [not null]
   user User [not null, note: 'The user who owns the grid']
   userId String [not null]
+
+  indexes {
+    (name, userId) [unique]
+  }
 }
 
 Table Permission {
