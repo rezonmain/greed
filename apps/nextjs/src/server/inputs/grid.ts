@@ -1,16 +1,16 @@
 import { GridModel } from "@greed/db";
 
-export const create = GridModel.pick({
+export const creates = GridModel.pick({
   name: true,
   heightCells: true,
   widthCells: true,
 });
 
-export const list = GridModel.pick({
+export const lists = GridModel.pick({
   name: true,
 }).partial({ name: true });
 
-export const update = GridModel.pick({
+export const updates = GridModel.pick({
   id: true,
   name: true,
   heightCells: true,
@@ -20,3 +20,5 @@ export const update = GridModel.pick({
   heightCells: true,
   widthCells: true,
 });
+
+export const deletes = GridModel.pick({ id: true });
