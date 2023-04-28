@@ -1,1 +1,1 @@
-packages/db/prisma/docs/* linguist-documentation
+packages/db/prisma/docs/** linguist-documentation
