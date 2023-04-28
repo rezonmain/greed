@@ -81,24 +81,15 @@ model Grid {
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
     cells       Cell[]
-    GridMeta    GridMeta     @relation(fields: [gridMetaId], references: [id], onDelete: Cascade)
-    gridMetaId  String       @unique
+    name        String
+    widthCells  Int
+    heightCells Int
     permissions Permission[]
     /// The user who owns the grid
     user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String
 
     @@index([userId])
-}
-
-model GridMeta {
-    id          String   @id @default(cuid())
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    name        String
-    widthCells  Int
-    heightCells Int
-    grid        Grid?
 }
 
 model Permission {
