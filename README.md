@@ -1,3 +1,3 @@
 # greed
 
-## Screen realstate
+## Screen real state
