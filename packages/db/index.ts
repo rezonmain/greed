@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 import { env } from "@greed/env";
 
@@ -16,3 +16,4 @@ export const prisma =
 if (env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 export * from "./prisma/zod";
+export { Prisma };
