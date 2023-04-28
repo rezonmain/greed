@@ -170,6 +170,19 @@ importers:
         specifier: ^5.0.2
         version: 5.0.2
 
+  packages/permissions:
+    dependencies:
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
+    devDependencies:
+      '@greed/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      typescript:
+        specifier: ^5.0.2
+        version: 5.0.2
+
   packages/tsconfig: {}
 
   packages/ui:
