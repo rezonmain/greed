@@ -1,6 +1,6 @@
 import { assert, describe, expect, it } from "vitest";
 import { Permission } from "../classes/Permission";
-import { PermissionType, RP } from "../definition";
+import { type PermissionType, RP } from "../definition";
 
 describe("Permission class", () => {
   const testCases = [
