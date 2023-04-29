@@ -21,7 +21,7 @@ export class Permission {
     if (typeof input === "string") {
       calculatedPermissions = {
         serialized: input,
-        value: z.number().parse(input),
+        value: z.coerce.number().parse(input),
       };
     } else if (Array.isArray(input)) {
       const value = input.reduce((acc, curr) => acc | PERM[curr], 0);
@@ -47,14 +47,17 @@ export class Permission {
     return this.permissions.serialized;
   }
 
+  has(permission: PermissionType | PermissionType[]): boolean {
+    if (Array.isArray(permission)) {
+      return permission.every((perm) => this.has(perm));
+    }
+    return (this.permissions.value & PERM[permission]) === PERM[permission];
+  }
+
   list(): PermissionType[] {
     return Object.keys(PERM).filter((key) =>
       this.has(key as PermissionType)
     ) as PermissionType[];
-  }
-
-  has(permission: PermissionType) {
-    return (this.permissions.value & PERM[permission]) === PERM[permission];
   }
 
   add(permission: PermissionType | PermissionType[], serialized?: boolean) {
@@ -78,7 +81,21 @@ export class Permission {
     return serialized ? newPermission.toString() : newPermission;
   }
 
-  remove(permission: PermissionType, serialized?: boolean) {
+  remove(permission: PermissionType | PermissionType[], serialized?: boolean) {
+    if (!this.has(permission)) return;
+
+    if (Array.isArray(permission)) {
+      const newPermission = permission.reduce(
+        (acc, curr) => acc ^ PERM[curr],
+        this.permissions.value
+      );
+      this.#setPermissions({
+        serialized: newPermission.toString(),
+        value: newPermission,
+      });
+      return serialized ? newPermission.toString() : newPermission;
+    }
+
     const newPermission = this.permissions.value ^ PERM[permission];
     this.#setPermissions({
       serialized: newPermission.toString(),
@@ -89,7 +106,7 @@ export class Permission {
 
   reset() {
     this.#setPermissions(this.original);
-    return this.original.serialized;
+    return this.permissions;
   }
 
   static from(permission: PermissionType[] | number | string) {
