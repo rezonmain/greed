@@ -1,0 +1,5 @@
+{
+  "extends": "@greed/tsconfig/base.json",
+  "include": ["index.ts"],
+  "exclude": ["node_modules"]
+}

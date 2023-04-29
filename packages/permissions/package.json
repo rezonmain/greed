@@ -1,0 +1,25 @@
+{
+  "name": "@greed/permissions",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "permissions:testing": "vitest --ui",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@greed/tsconfig": "workspace:*",
+    "@vitest/ui": "^0.30.1",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.3",
+    "vitest": "^0.30.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
