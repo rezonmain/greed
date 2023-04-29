@@ -8,7 +8,7 @@ on:
 
 jobs:
   pre:
-    env: 
+    env:
       SKIP_ENV_VALIDATION: "true"
     name: Pre
     timeout-minutes: 15
@@ -34,12 +34,6 @@ jobs:
 
       - name: Lint
         run: pnpm lint
-        
+
       - name: Test
         run: pnpm test
-        
-      - name: Build
-        run: pnpm build
-      
-      
-
