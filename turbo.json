@@ -6,6 +6,11 @@
     "build": {
       "outputs": [".next/**", "!.next/cache/**"]
     },
+    "test": {
+      "inputs": ["__tests__/**"],
+      "outputs": ["coverage/**"],
+      "cache": true
+    },
     "db:generate": {
       "inputs": ["prisma/schema.prisma"],
       "cache": false
