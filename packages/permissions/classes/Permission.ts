@@ -1,4 +1,4 @@
-import { PERM, PermissionType, RP, Roles } from "../definition";
+import { PERM, type PermissionType, RP, type Roles } from "../definition";
 import z from "zod";
 
 export class Permission {
