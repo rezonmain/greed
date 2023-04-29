@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Check out the changes
         uses: actions/checkout@v3
         with:
           fetch-depth: 2
