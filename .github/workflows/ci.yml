@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build
+      - name: Lint
         run: pnpm lint
 
   test:
@@ -58,7 +58,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build
+      - name: Test
         run: pnpm test
 
   build:
