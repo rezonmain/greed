@@ -181,7 +181,6 @@ describe("Permission class", () => {
 
     it("should not remove a permission if it does not have it", () => {
       const perm = new Permission(15);
-      console.log(perm.list());
       perm.remove("approval.create");
       assert(!perm.has("approval.create"));
       assert(perm.value === 15);
