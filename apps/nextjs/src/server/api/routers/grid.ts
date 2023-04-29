@@ -1,4 +1,4 @@
-import { Prisma } from "@greed/db";
+import { type Prisma } from "@greed/db";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { creates, deletes, lists, updates } from "~/server/inputs/grid";
