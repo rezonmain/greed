@@ -1,6 +1,6 @@
 import { assert, describe, expect, it } from "vitest";
 import { Permission } from "../classes/Permission";
-import { PermissionType } from "../definition";
+import { PermissionType, RP } from "../definition";
 
 describe("Permission class", () => {
   const testCases = [
@@ -235,6 +235,29 @@ describe("Permission class", () => {
         "grid.update",
         "grid.delete",
       ]);
+    });
+  });
+
+  describe("roles", () => {
+    it("should create owner permissions", () => {
+      const perm = Permission.fromRole("owner");
+      assert(perm.value === 4095);
+      assert(perm.serialized === "4095");
+      expect(perm.list().sort()).toEqual(RP.owner.sort());
+    });
+
+    it("should create moderator permissions", () => {
+      const perm = Permission.fromRole("moderator");
+      expect(perm.value).toBe(3878);
+      expect(perm.serialized).toBe("3878");
+      expect(perm.list().sort()).toEqual(RP.moderator.sort());
+    });
+
+    it("should create user permissions", () => {
+      const perm = Permission.fromRole("user");
+      expect(perm.value).toBe(770);
+      expect(perm.serialized).toBe("770");
+      expect(perm.list().sort()).toMatchObject(RP.user.sort());
     });
   });
 });
