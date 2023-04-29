@@ -11,7 +11,7 @@ jobs:
     name: Lint
     timeout-minuts: 15
     runs-on: ubuntu-latest
-     steps:
+    steps:
       - name: Check out code
         uses: actions/checkout@v3
         with:
@@ -37,7 +37,7 @@ jobs:
     name: Test
     timeout-minuts: 15
     runs-on: ubuntu-latest
-     steps:
+    steps:
       - name: Check out code
         uses: actions/checkout@v3
         with:
