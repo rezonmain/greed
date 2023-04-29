@@ -5,6 +5,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
+    "test": "turbo run test",
     "db:generate": "turbo db:generate",
     "db:push": "turbo db:push db:generate",
     "permissions:testing": "turbo permissions:testing"
