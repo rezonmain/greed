@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { PERM, RP } from "../definition";
+import { gridPermissions, gridRolesPermissions } from "../definitions/grid";
 
-describe("permissions/definition", () => {
+describe("permissions/gird permissions definition", () => {
   it("should remain constant", () => {
-    expect(PERM).toMatchSnapshot();
+    expect(gridPermissions).toMatchSnapshot();
   });
 });
 
 describe("permissions/roles", () => {
   it("should remain constant", () => {
-    expect(RP).toMatchSnapshot();
+    expect(gridRolesPermissions).toMatchSnapshot();
   });
 });

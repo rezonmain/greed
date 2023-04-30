@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`permissions/definition > should remain constant 1`] = `
+exports[`permissions/gird permissions definition > should remain constant 1`] = `
 {
   "approval.create": 256,
   "approval.delete": 2048,
@@ -19,7 +19,12 @@ exports[`permissions/definition > should remain constant 1`] = `
 
 exports[`permissions/roles > should remain constant 1`] = `
 {
-  "moderator": [
+  "grid.buyer": [
+    "grid.read",
+    "approval.read",
+    "approval.create",
+  ],
+  "grid.moderator": [
     "grid.read",
     "grid.update",
     "permission.read",
@@ -28,7 +33,7 @@ exports[`permissions/roles > should remain constant 1`] = `
     "approval.create",
     "approval.delete",
   ],
-  "owner": [
+  "grid.owner": [
     "grid.create",
     "grid.read",
     "grid.update",
@@ -41,11 +46,6 @@ exports[`permissions/roles > should remain constant 1`] = `
     "approval.read",
     "approval.update",
     "approval.delete",
-  ],
-  "user": [
-    "grid.read",
-    "approval.read",
-    "approval.create",
   ],
 }
 `;
