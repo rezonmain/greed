@@ -1,4 +1,4 @@
-import { type PermissionsOf } from "./PermissionOf";
+import { type PermissionsOf } from "./PermissionsOf";
 
 export type DefinitionOf<
   Resources extends readonly string[],
