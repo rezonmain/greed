@@ -1,5 +1,5 @@
 import z from "zod";
-import type IPermission from "../interfaces/IPermission";
+import { type IPermission } from "../interfaces/IPermission";
 import { type PermissionsOf } from "../types/PermissionsOf";
 import { type DefinitionOf } from "../types/DefinitionOf";
 

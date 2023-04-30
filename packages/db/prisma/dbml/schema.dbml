@@ -81,6 +81,10 @@ Table Permission {
   gridId String [not null]
   user User [not null]
   userId String [not null]
+
+  indexes {
+    (gridId, userId) [unique]
+  }
 }
 
 Table Content {
