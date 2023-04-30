@@ -1,39 +1,23 @@
 import { type Prisma } from "@greed/db";
 import { TRPCError } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { GridPermission } from "@greed/permissions";
 import { creates, deletes, listsByGridId } from "~/server/inputs/cell";
+import { throwIfForbidden } from "~/utils/permissions/grid";
 
 export const cellRouter = createTRPCRouter({
   listByGridId: protectedProcedure
     .input(listsByGridId)
     .query(async ({ ctx, input }) => {
       try {
-        const serializedPermissions = await ctx.prisma.permission.findFirst({
-          where: {
-            gridId: input.gridId,
-            userId: ctx.session.user.id,
-          },
+        await throwIfForbidden({
+          ctx,
+          gridId: input.gridId,
+          message: "You do not have permission to view this grid's cells",
+          needs: "cell.read",
         });
-
-        if (!serializedPermissions)
-          throw new TRPCError({
-            code: "FORBIDDEN",
-            message: "Permissions not found.",
-          });
-        const perm = new GridPermission(serializedPermissions.permissions);
-        if (!perm.has("cell.read"))
-          throw new TRPCError({
-            code: "FORBIDDEN",
-            message: "You don't have the permissions to view this grid's cells",
-          });
-
         return await ctx.prisma.cell.findMany({
           where: {
-            gridId: input.gridId,
-            approved: input.approved,
-            approvedById: input.approvedById,
-            approvedAt: input.approvedAt,
+            ...input,
           },
         });
       } catch (error) {
@@ -84,24 +68,12 @@ export const cellRouter = createTRPCRouter({
 
       // If the author is not the current user, check if the current user has the permission to delete the grid
       if (cell.userId !== ctx.session.user.id) {
-        const serializedPermissions = await ctx.prisma.permission.findFirst({
-          where: {
-            gridId: cell.gridId,
-            userId: ctx.session.user.id,
-          },
+        await throwIfForbidden({
+          ctx,
+          gridId: cell.gridId,
+          message: "You do not have permission to delete this cell",
+          needs: "cell.delete",
         });
-        if (!serializedPermissions)
-          throw new TRPCError({
-            code: "FORBIDDEN",
-            message: "Permissions not found.",
-          });
-
-        const perm = new GridPermission(serializedPermissions.permissions);
-        if (!perm.has("grid.delete"))
-          throw new TRPCError({
-            code: "FORBIDDEN",
-            message: "You don't have the permissions to delete this grid",
-          });
       }
 
       await ctx.prisma.grid.delete({
