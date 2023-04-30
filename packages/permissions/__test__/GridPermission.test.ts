@@ -1,6 +1,9 @@
 import { assert, describe, expect, it } from "vitest";
-import { Permission } from "../classes/Permission";
-import { type PermissionType, RP } from "../definition";
+import { GridPermission } from "../classes/GridPermission";
+import {
+  type GridPermissionType,
+  gridRolesPermissions,
+} from "../definitions/grid";
 
 describe("Permission class", () => {
   const testCases = [
@@ -46,7 +49,7 @@ describe("Permission class", () => {
     it.each(testCases)(
       "should create a correct permission from number $value",
       (test) => {
-        const p = new Permission(test.value);
+        const p = new GridPermission(test.value);
         assert(p.value === test.value);
         assert(p.serialized === test.serialized);
         expect(p.list()).toEqual(test.list);
@@ -56,7 +59,7 @@ describe("Permission class", () => {
     it.each(testCases)(
       "should create a correct permission from string $serialized",
       (test) => {
-        const p = new Permission(test.serialized);
+        const p = new GridPermission(test.serialized);
         assert(p.value === test.value);
         assert(p.serialized === test.serialized);
         expect(p.list()).toEqual(test.list);
@@ -64,9 +67,9 @@ describe("Permission class", () => {
     );
 
     it.each(testCases)(
-      "should create a correct permission from array of PermissionType $list",
+      "should create a correct permission from array of GridPermissionType $list",
       (test) => {
-        const p = new Permission(test.list as PermissionType[]);
+        const p = new GridPermission(test.list as GridPermissionType[]);
         assert(p.value === test.value);
         assert(p.serialized === test.serialized);
         expect(p.list()).toEqual(test.list);
@@ -78,7 +81,7 @@ describe("Permission class", () => {
     it.each(testCases)(
       "should create a correct permission from number $value",
       (test) => {
-        const p = Permission.from(test.value);
+        const p = GridPermission.from(test.value);
         assert(p.value === test.value);
         assert(p.serialized === test.serialized);
         expect(p.list()).toEqual(test.list);
@@ -88,7 +91,7 @@ describe("Permission class", () => {
     it.each(testCases)(
       "should create a correct permission from string $serialized",
       (test) => {
-        const p = Permission.from(test.serialized);
+        const p = GridPermission.from(test.serialized);
         assert(p.value === test.value);
         assert(p.serialized === test.serialized);
         expect(p.list()).toEqual(test.list);
@@ -96,9 +99,9 @@ describe("Permission class", () => {
     );
 
     it.each(testCases)(
-      "should create a correct permission from array of PermissionType $list",
+      "should create a correct permission from array of GridPermissionType $list",
       (test) => {
-        const p = Permission.from(test.list as PermissionType[]);
+        const p = GridPermission.from(test.list as GridPermissionType[]);
         assert(p.value === test.value);
         assert(p.serialized === test.serialized);
         expect(p.list()).toEqual(test.list);
@@ -115,15 +118,15 @@ describe("Permission class", () => {
     it.each(permissions)(
       "should return true if permission has the $p permission",
       ({ p }) => {
-        const perm = new Permission(2305);
-        assert(perm.has(p as PermissionType));
+        const perm = new GridPermission(2305);
+        assert(perm.has(p as GridPermissionType));
       }
     );
 
     it.each(permissions)(
       "should return false if permission does not have $p permission",
       ({ p }) => {
-        const perm = new Permission([
+        const perm = new GridPermission([
           "grid.update",
           "approval.read",
           "grid.read",
@@ -134,21 +137,21 @@ describe("Permission class", () => {
           "permission.read",
           "permission.update",
         ]);
-        assert(!perm.has(p as PermissionType));
+        assert(!perm.has(p as GridPermissionType));
       }
     );
   });
 
   describe("add", () => {
     it("should add a permission", () => {
-      const perm = new Permission(0);
+      const perm = new GridPermission(0);
       perm.add("grid.create");
       assert(perm.has("grid.create"));
       assert(perm.value !== 0);
     });
 
     it("should not add a permission if it already exists", () => {
-      const perm = new Permission(0);
+      const perm = new GridPermission(0);
       perm.add("grid.create");
       perm.add("grid.create");
       assert(perm.has("grid.create"));
@@ -158,7 +161,7 @@ describe("Permission class", () => {
     });
 
     it("should add multiple permissions", () => {
-      const perm = new Permission(0);
+      const perm = new GridPermission(0);
       perm.add(["grid.create", "grid.read", "grid.update"]);
       assert(perm.has("grid.create"));
       assert(perm.has("grid.read"));
@@ -171,7 +174,7 @@ describe("Permission class", () => {
 
   describe("remove", () => {
     it("should remove a permission", () => {
-      const perm = new Permission(15);
+      const perm = new GridPermission(15);
       perm.remove("grid.create");
       assert(!perm.has("grid.create"));
       assert(perm.value === 14);
@@ -180,7 +183,7 @@ describe("Permission class", () => {
     });
 
     it("should not remove a permission if it does not have it", () => {
-      const perm = new Permission(15);
+      const perm = new GridPermission(15);
       perm.remove("approval.create");
       assert(!perm.has("approval.create"));
       assert(perm.value === 15);
@@ -194,7 +197,7 @@ describe("Permission class", () => {
     });
 
     it("should remove multiple permissions", () => {
-      const perm = new Permission(15);
+      const perm = new GridPermission(15);
       perm.remove(["grid.create", "grid.read", "grid.update"]);
       assert(!perm.has("grid.create"));
       assert(!perm.has("grid.read"));
@@ -208,7 +211,7 @@ describe("Permission class", () => {
 
   describe("reset", () => {
     it("should reset value to the initial permission value after a permission is removed", () => {
-      const perm = new Permission(15);
+      const perm = new GridPermission(15);
       perm.remove(["grid.create", "grid.read", "grid.update"]);
       assert(perm.value === 8);
       const { value, serialized } = perm.reset();
@@ -223,7 +226,7 @@ describe("Permission class", () => {
     });
 
     it("should reset value to the initial permission value after a permission is added", () => {
-      const perm = new Permission(15);
+      const perm = new GridPermission(15);
       perm.add(["approval.create"]);
       expect(perm.value).toBe(271);
       const { value, serialized } = perm.reset();
@@ -240,24 +243,30 @@ describe("Permission class", () => {
 
   describe("roles", () => {
     it("should create owner permissions", () => {
-      const perm = Permission.fromRole("owner");
+      const perm = GridPermission.fromRole("grid.owner");
       assert(perm.value === 4095);
       assert(perm.serialized === "4095");
-      expect(perm.list().sort()).toEqual(RP.owner.sort());
+      expect(perm.list().sort()).toEqual(
+        gridRolesPermissions["grid.owner"].sort()
+      );
     });
 
     it("should create moderator permissions", () => {
-      const perm = Permission.fromRole("moderator");
+      const perm = GridPermission.fromRole("grid.moderator");
       expect(perm.value).toBe(3878);
       expect(perm.serialized).toBe("3878");
-      expect(perm.list().sort()).toEqual(RP.moderator.sort());
+      expect(perm.list().sort()).toEqual(
+        gridRolesPermissions["grid.moderator"].sort()
+      );
     });
 
     it("should create user permissions", () => {
-      const perm = Permission.fromRole("user");
+      const perm = GridPermission.fromRole("grid.buyer");
       expect(perm.value).toBe(770);
       expect(perm.serialized).toBe("770");
-      expect(perm.list().sort()).toMatchObject(RP.user.sort());
+      expect(perm.list().sort()).toMatchObject(
+        gridRolesPermissions["grid.buyer"].sort()
+      );
     });
   });
 });
