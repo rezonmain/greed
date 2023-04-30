@@ -5,7 +5,7 @@ export default function cuid2(
   params: Prisma.MiddlewareParams,
   next: (params: Prisma.MiddlewareParams) => Promise<unknown>
 ) {
-  if (params.action === "create" || params.action === "createMany") {
+  if (params.action === "create") {
     params.args.data.id ??= createId();
   }
   if (params.action === "createMany") {
