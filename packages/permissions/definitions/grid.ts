@@ -24,12 +24,17 @@ export const gridRolesPermissions: Readonly<
   "grid.owner": Object.keys(gridPermissions) as GridPermissionType[],
   "grid.moderator": [
     "grid.read",
-    "grid.update",
     "permission.read",
+    "approval.create",
     "approval.read",
     "approval.update",
-    "approval.create",
     "approval.delete",
   ],
-  "grid.buyer": ["grid.read", "approval.read", "approval.create"],
+  "grid.buyer": [
+    "grid.read",
+    "approval.create",
+    "approval.read",
+    "approval.delete",
+    "permission.read",
+  ],
 };
