@@ -1,5 +1,5 @@
 import * as z from "zod"
-import { CompleteGrid, RelatedGridModel, CompleteContent, RelatedContentModel, CompleteUser, RelatedUserModel, CompleteApproval, RelatedApprovalModel } from "./index"
+import { CompleteGrid, RelatedGridModel, CompleteContent, RelatedContentModel, CompleteUser, RelatedUserModel } from "./index"
 
 export const CellModel = z.object({
   id: z.string(),
@@ -10,14 +10,16 @@ export const CellModel = z.object({
   gridId: z.string(),
   contentId: z.string(),
   userId: z.string(),
-  approvalId: z.string().nullish(),
+  approved: z.boolean(),
+  approvedAt: z.date().nullish(),
+  approvedById: z.string().nullish(),
 })
 
 export interface CompleteCell extends z.infer<typeof CellModel> {
   grid: CompleteGrid
   content: CompleteContent
   user: CompleteUser
-  approval?: CompleteApproval | null
+  approvedBy?: CompleteUser | null
 }
 
 /**
@@ -32,5 +34,8 @@ export const RelatedCellModel: z.ZodSchema<CompleteCell> = z.lazy(() => CellMode
    * The user who's the author of the cell
    */
   user: RelatedUserModel,
-  approval: RelatedApprovalModel.nullish(),
+  /**
+   * The user who approved the cell
+   */
+  approvedBy: RelatedUserModel.nullish(),
 }))
