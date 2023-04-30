@@ -12,7 +12,7 @@ export const throwIfForbidden = async ({
   ctx: TRPCProtectedContext;
   gridId: string;
   message: string;
-  needs: GridPermissionType;
+  needs: GridPermissionType | GridPermissionType[];
 }) => {
   const serializedPermissions = await getSerializedGridPermissions(ctx, gridId);
   if (!serializedPermissions)
