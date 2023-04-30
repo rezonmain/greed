@@ -253,8 +253,8 @@ describe("Permission class", () => {
 
     it("should create moderator permissions", () => {
       const perm = GridPermission.fromRole("grid.moderator");
-      expect(perm.value).toBe(3878);
-      expect(perm.serialized).toBe("3878");
+      expect(perm.value).toBe(3874);
+      expect(perm.serialized).toBe("3874");
       expect(perm.list().sort()).toEqual(
         gridRolesPermissions["grid.moderator"].sort()
       );
@@ -262,8 +262,8 @@ describe("Permission class", () => {
 
     it("should create user permissions", () => {
       const perm = GridPermission.fromRole("grid.buyer");
-      expect(perm.value).toBe(770);
-      expect(perm.serialized).toBe("770");
+      expect(perm.value).toBe(2850);
+      expect(perm.serialized).toBe("2850");
       expect(perm.list().sort()).toMatchObject(
         gridRolesPermissions["grid.buyer"].sort()
       );

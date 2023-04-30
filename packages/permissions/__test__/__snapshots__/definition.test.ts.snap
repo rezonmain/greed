@@ -21,16 +21,17 @@ exports[`permissions/roles > should remain constant 1`] = `
 {
   "grid.buyer": [
     "grid.read",
-    "approval.read",
     "approval.create",
+    "approval.read",
+    "approval.delete",
+    "permission.read",
   ],
   "grid.moderator": [
     "grid.read",
-    "grid.update",
     "permission.read",
+    "approval.create",
     "approval.read",
     "approval.update",
-    "approval.create",
     "approval.delete",
   ],
   "grid.owner": [
