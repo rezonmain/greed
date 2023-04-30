@@ -2,7 +2,7 @@ import { type PermissionsOf } from "../types/PermissionsOf";
 import { type DefinitionOf } from "../types/DefinitionOf";
 import { z } from "zod";
 
-export default abstract class IPermission<
+export abstract class IPermission<
   Resources extends readonly string[],
   Operations extends readonly string[]
 > {
