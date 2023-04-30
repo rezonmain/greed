@@ -83,6 +83,11 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
   },
 });
 
+export type TRPCProtectedContext = Omit<
+  Awaited<ReturnType<typeof createTRPCContext>>,
+  "session"
+> & { session: Session };
+
 /**
  * 3. ROUTER & PROCEDURE (THE IMPORTANT BIT)
  *
