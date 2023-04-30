@@ -59,9 +59,9 @@ model User {
     sessions      Session[]
     permission    Permission[]
     wallets       Wallet[]
-    cells         Cell[]
+    cells         Cell[]       @relation("user")
+    approvals     Cell[]       @relation("approvedBy")
     grids         Grid[]
-    Approval      Approval[]
 }
 
 model VerificationToken {
@@ -117,25 +117,28 @@ model Content {
 }
 
 model Cell {
-    id         String    @id @default(cuid())
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    column     Int
-    row        Int
-    grid       Grid      @relation(fields: [gridId], references: [id], onDelete: Cascade)
-    gridId     String
-    content    Content   @relation(fields: [contentId], references: [id])
-    contentId  String
+    id           String    @id @default(cuid())
+    createdAt    DateTime  @default(now())
+    updatedAt    DateTime  @updatedAt
+    column       Int
+    row          Int
+    grid         Grid      @relation(fields: [gridId], references: [id], onDelete: Cascade)
+    gridId       String
+    content      Content   @relation(fields: [contentId], references: [id])
+    contentId    String
     /// The user who's the author of the cell
-    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-    userId     String
-    approval   Approval? @relation(fields: [approvalId], references: [id])
-    approvalId String?
+    user         User      @relation("user", fields: [userId], references: [id], onDelete: Cascade)
+    userId       String
+    approved     Boolean   @default(false)
+    approvedAt   DateTime?
+    /// The user who approved the cell
+    approvedBy   User?     @relation("approvedBy", fields: [approvedById], references: [id])
+    approvedById String?
 
     @@index([gridId])
     @@index([contentId])
     @@index([userId])
-    @@index([approvalId])
+    @@index([approvedById])
 }
 
 model Wallet {
@@ -147,20 +150,6 @@ model Wallet {
     /// The user who owns the wallet
     user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
-
-    @@index([userId])
-}
-
-model Approval {
-    id         String    @id @default(cuid())
-    createdAt  DateTime  @default(now())
-    updatedAt  DateTime  @updatedAt
-    approved   Boolean   @default(false)
-    approvedAt DateTime?
-    /// The user who approved the cell
-    user       User?     @relation(fields: [userId], references: [id])
-    userId     String?
-    Cell       Cell[]
 
     @@index([userId])
 }
