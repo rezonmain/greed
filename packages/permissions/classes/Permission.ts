@@ -3,6 +3,13 @@ import type IPermission from "../interfaces/IPermission";
 import { type PermissionsOf } from "../types/PermissionsOf";
 import { type DefinitionOf } from "../types/DefinitionOf";
 
+/**
+ * @class Permission - A base class that represents a generic Permission for a resource
+ * @param {PermissionsOf<R, O>[] | number | string} input - The input to create the permission
+ * @param {DefinitionOf<R, O>} definition - The definition of the permissions
+ * @param {Readonly<Record<string, PermissionsOf<R, O>[]>>} roleDefinition - The definition of the roles
+ * @returns {Permission<R, O>} - A permission
+ */
 export class Permission<
   R extends readonly string[],
   O extends readonly string[]

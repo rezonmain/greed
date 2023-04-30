@@ -8,6 +8,11 @@ import {
 } from "../definitions/grid";
 import { Permission } from "./Permission";
 
+/**
+ * @class GridPermission - A class that represents a Grid Permission
+ * @param {GridPermissionType[] | number | string} input - The input to create the permission
+ * @returns {GridPermission} - A Grid permission
+ */
 export class GridPermission extends Permission<
   typeof protectedResources,
   typeof operations
