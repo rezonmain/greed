@@ -25,6 +25,9 @@ importers:
       '@greed/env':
         specifier: workspace:*
         version: link:../../packages/env
+      '@greed/permissions':
+        specifier: workspace:*
+        version: link:../../packages/permissions
       '@next-auth/prisma-adapter':
         specifier: ^1.0.5
         version: 1.0.5(@prisma/client@4.11.0)(next-auth@4.21.0)
