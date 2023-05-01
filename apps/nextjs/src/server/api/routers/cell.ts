@@ -66,6 +66,8 @@ export const cellRouter = createTRPCRouter({
         },
       });
 
+      console.log(cell);
+
       // If the author is not the current user, check if the current user has the permission to delete the grid
       if (cell.userId !== ctx.session.user.id) {
         await throwIfForbidden({
@@ -76,7 +78,7 @@ export const cellRouter = createTRPCRouter({
         });
       }
 
-      await ctx.prisma.grid.delete({
+      await ctx.prisma.cell.delete({
         where: {
           id: input.id,
         },
