@@ -2,10 +2,10 @@
 
 exports[`permissions/gird permissions definition > should remain constant 1`] = `
 {
-  "approval.create": 256,
-  "approval.delete": 2048,
-  "approval.read": 512,
-  "approval.update": 1024,
+  "cell.create": 256,
+  "cell.delete": 2048,
+  "cell.read": 512,
+  "cell.update": 1024,
   "grid.create": 1,
   "grid.delete": 8,
   "grid.read": 2,
@@ -21,18 +21,17 @@ exports[`permissions/roles > should remain constant 1`] = `
 {
   "grid.buyer": [
     "grid.read",
-    "approval.create",
-    "approval.read",
-    "approval.delete",
+    "cell.create",
+    "cell.delete",
     "permission.read",
   ],
   "grid.moderator": [
     "grid.read",
     "permission.read",
-    "approval.create",
-    "approval.read",
-    "approval.update",
-    "approval.delete",
+    "cell.create",
+    "cell.read",
+    "cell.update",
+    "cell.delete",
   ],
   "grid.owner": [
     "grid.create",
@@ -43,10 +42,10 @@ exports[`permissions/roles > should remain constant 1`] = `
     "permission.read",
     "permission.update",
     "permission.delete",
-    "approval.create",
-    "approval.read",
-    "approval.update",
-    "approval.delete",
+    "cell.create",
+    "cell.read",
+    "cell.update",
+    "cell.delete",
   ],
 }
 `;

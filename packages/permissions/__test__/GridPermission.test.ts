@@ -111,8 +111,8 @@ describe("Permission class", () => {
 
   describe("has", () => {
     const permissions = [
-      { p: "approval.create" },
-      { p: "approval.delete" },
+      { p: "cell.create" },
+      { p: "cell.delete" },
       { p: "grid.create" },
     ];
     it.each(permissions)(
@@ -128,9 +128,9 @@ describe("Permission class", () => {
       ({ p }) => {
         const perm = new GridPermission([
           "grid.update",
-          "approval.read",
+          "cell.read",
           "grid.read",
-          "approval.update",
+          "cell.update",
           "grid.delete",
           "permission.create",
           "permission.delete",
@@ -184,8 +184,8 @@ describe("Permission class", () => {
 
     it("should not remove a permission if it does not have it", () => {
       const perm = new GridPermission(15);
-      perm.remove("approval.create");
-      assert(!perm.has("approval.create"));
+      perm.remove("cell.create");
+      assert(!perm.has("cell.create"));
       assert(perm.value === 15);
       assert(perm.serialized === "15");
       expect(perm.list()).toEqual([
@@ -227,7 +227,7 @@ describe("Permission class", () => {
 
     it("should reset value to the initial permission value after a permission is added", () => {
       const perm = new GridPermission(15);
-      perm.add(["approval.create"]);
+      perm.add(["cell.create"]);
       expect(perm.value).toBe(271);
       const { value, serialized } = perm.reset();
       assert(value === 15);
@@ -262,8 +262,8 @@ describe("Permission class", () => {
 
     it("should create user permissions", () => {
       const perm = GridPermission.fromRole("grid.buyer");
-      expect(perm.value).toBe(2850);
-      expect(perm.serialized).toBe("2850");
+      expect(perm.value).toBe(2338);
+      expect(perm.serialized).toBe("2338");
       expect(perm.list().sort()).toMatchObject(
         gridRolesPermissions["grid.buyer"].sort()
       );

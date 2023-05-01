@@ -2,7 +2,7 @@ import { type DefinitionOf } from "../types/DefinitionOf";
 import { type PermissionsOf } from "../types/PermissionsOf";
 
 export const operations = ["create", "read", "update", "delete"] as const;
-export const protectedResources = ["grid", "permission", "approval"] as const;
+export const protectedResources = ["grid", "permission", "cell"] as const;
 
 export type GridPermissionType = PermissionsOf<
   typeof protectedResources,
@@ -25,16 +25,10 @@ export const gridRolesPermissions: Readonly<
   "grid.moderator": [
     "grid.read",
     "permission.read",
-    "approval.create",
-    "approval.read",
-    "approval.update",
-    "approval.delete",
+    "cell.create",
+    "cell.read",
+    "cell.update",
+    "cell.delete",
   ],
-  "grid.buyer": [
-    "grid.read",
-    "approval.create",
-    "approval.read",
-    "approval.delete",
-    "permission.read",
-  ],
+  "grid.buyer": ["grid.read", "cell.create", "cell.delete", "permission.read"],
 };
